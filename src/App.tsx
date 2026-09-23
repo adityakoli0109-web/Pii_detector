@@ -693,20 +693,28 @@ export default function App() {
   const [chatTyping, setChatTyping] = useState(false)
   const [scanProgress, setScanProgress] = useState(0)
   const [scanItems, setScanItems] = useState<string[]>([])
+<<<<<<< HEAD
   // Real scan results returned by the Render backend.
   const [piiItems, setPiiItems] = useState<PiiItem[]>([])
+=======
+  const [piiItems, setPiiItems] = useState<PiiItem[]>(INITIAL_PII)
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
   const [sliderPos, setSliderPos] = useState(50)
   const [privacyScore, setPrivacyScore] = useState(82)
   const [dragOver, setDragOver] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+<<<<<<< HEAD
   const [scanError, setScanError] = useState('')
+=======
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
   const fileInputRef = useRef<HTMLInputElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
 
   const navigate = (v: View) => { setView(v); window.scrollTo(0, 0) }
 
+<<<<<<< HEAD
   const API_URL = 'https://pii-detector-backend.onrender.com'
 
   // Keep the frontend's accepted formats aligned with the Flask backend.
@@ -723,6 +731,15 @@ export default function App() {
     } else {
       setSelectedFiles([])
       setScanError('Unsupported file type. Please choose a supported document, image, spreadsheet, or text file.')
+=======
+  const allowedFileTypes = '.pdf,.jpg,.jpeg,.png,.doc,.docx,.txt,.csv'
+  const handleFiles = (files: FileList | File[]) => {
+    const incoming = Array.from(files).filter(file =>
+      /\.(pdf|jpe?g|png|docx?|txt|csv)$/i.test(file.name)
+    )
+    if (incoming.length > 0) {
+      setSelectedFiles(incoming)
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
     }
   }
 
@@ -731,6 +748,7 @@ export default function App() {
     e.target.value = ''
   }
 
+<<<<<<< HEAD
   const convertBackendFinding = (finding: any, index: number): PiiItem => {
     const rawType =
       finding.type ??
@@ -806,10 +824,14 @@ export default function App() {
   }
 
   const startScan = async () => {
+=======
+  const startScan = () => {
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
     if (selectedFiles.length === 0) {
       fileInputRef.current?.click()
       return
     }
+<<<<<<< HEAD
 
     const file = selectedFiles[0]
     setScanError('')
@@ -868,6 +890,26 @@ export default function App() {
     }
   }
 
+=======
+    navigate('scanning')
+  }
+
+  // Scanning animation
+  useEffect(() => {
+    if (view !== 'scanning') return
+    setScanProgress(0)
+    setScanItems([])
+    const items = ['Aadhaar Number detected', 'Full Name detected', 'Date of Birth detected', 'PAN Number detected', 'Address detected', 'Mobile Number detected', 'Email Address detected']
+    let i = 0
+    const interval = setInterval(() => {
+      setScanProgress(p => Math.min(p + 13, 100))
+      if (i < items.length) { setScanItems(p => [...p, items[i]]); i++ }
+    }, 500)
+    const timer = setTimeout(() => { clearInterval(interval); navigate('results') }, 4000)
+    return () => { clearInterval(interval); clearTimeout(timer) }
+  }, [view])
+
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
   // Update privacy score based on actions
   useEffect(() => {
     const risk = piiItems.reduce((acc, item) => {
@@ -1275,6 +1317,10 @@ export default function App() {
                 ref={fileInputRef}
                 type="file"
                 accept={allowedFileTypes}
+<<<<<<< HEAD
+=======
+                multiple
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
                 onChange={handleFileInput}
                 className="hidden"
               />
@@ -1382,6 +1428,10 @@ export default function App() {
             ref={fileInputRef}
             type="file"
             accept={allowedFileTypes}
+<<<<<<< HEAD
+=======
+            multiple
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
             onChange={handleFileInput}
             className="hidden"
           />
@@ -1436,7 +1486,10 @@ export default function App() {
         <div className="mb-2">
           <p className="font-display text-2xl font-semibold text-primary">AI is analyzing your document<span className="inline-flex gap-0.5 ml-1"><span className="dot-1 inline-block w-1.5 h-1.5 bg-accent rounded-full"/><span className="dot-2 inline-block w-1.5 h-1.5 bg-accent rounded-full"/><span className="dot-3 inline-block w-1.5 h-1.5 bg-accent rounded-full"/></span></p>
           <p className="text-muted-foreground mt-1">Scanning for government-issued PII and sensitive information</p>
+<<<<<<< HEAD
           {scanError && <div className="mt-4 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm">{scanError}</div>}
+=======
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
         </div>
 
         <div className="my-6">
@@ -1478,7 +1531,11 @@ export default function App() {
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
             <h1 className="font-display text-3xl font-bold text-primary">PII Detection Report</h1>
+<<<<<<< HEAD
             <p className="text-muted-foreground mt-1">{selectedFiles[0]?.name || 'Uploaded file'} · Scanned just now · <span className="text-red-600 font-medium">{piiItems.length} PII items found</span></p>
+=======
+            <p className="text-muted-foreground mt-1">Aadhaar_scan.pdf · Scanned just now · <span className="text-red-600 font-medium">7 PII items found</span></p>
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
           </div>
           <div className="flex gap-3 flex-wrap">
             <button onClick={() => navigate('necessity')} className="px-5 py-2.5 bg-card border border-border rounded-xl text-sm font-semibold hover:bg-secondary transition-colors">Necessity Check →</button>
@@ -1493,6 +1550,7 @@ export default function App() {
               <h3 className="font-semibold text-foreground">Document Preview</h3>
               <span className="text-xs font-mono-data bg-muted px-2 py-1 rounded-lg text-muted-foreground">Page 1 of 2</span>
             </div>
+<<<<<<< HEAD
             <div className="bg-secondary rounded-xl p-5 space-y-4 font-mono-data text-xs">
               <div className="text-center py-5">
                 <div className="text-4xl mb-3">📄</div>
@@ -1510,16 +1568,39 @@ export default function App() {
                   <span className="text-muted-foreground">PII detected</span>
                   <span className="font-medium text-foreground">{piiItems.length}</span>
                 </div>
+=======
+            <div className="bg-secondary rounded-xl p-4 space-y-3 font-mono-data text-xs">
+              <div className="font-semibold text-foreground text-sm">AADHAAR ENROLMENT FORM</div>
+              <div className="text-muted-foreground">Enrolment No: 1234/56789/01234</div>
+              <div className="space-y-1.5">
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">Name:</span><span className="bg-green-200/60 text-green-900 px-1 rounded">Ananya Krishnamurthy</span></div>
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">Date of Birth:</span><span className="bg-amber-200/60 text-amber-900 px-1 rounded">14 March 1992</span></div>
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">Aadhaar No:</span><span className="bg-red-200/60 text-red-900 px-1 rounded">3821 5674 9012</span></div>
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">PAN:</span><span className="bg-red-200/60 text-red-900 px-1 rounded">ABCDE1234F</span></div>
+              </div>
+              <div className="border-t border-border pt-2 space-y-1.5">
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">Mobile:</span><span className="bg-red-200/60 text-red-900 px-1 rounded">+91 98345 67812</span></div>
+                <div className="flex gap-2"><span className="text-muted-foreground w-24">Email:</span><span className="bg-amber-200/60 text-amber-900 px-1 rounded">ananya.k@mailbox.in</span></div>
+                <div className="flex gap-2 flex-wrap"><span className="text-muted-foreground w-24">Address:</span><span className="bg-amber-200/60 text-amber-900 px-1 rounded">42, Shivaji Nagar, Pune 411004</span></div>
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
               </div>
             </div>
             <div className="mt-4 space-y-2">
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Document Type Detected</span>
+<<<<<<< HEAD
                 <span className="font-medium text-foreground">Backend detected</span>
               </div>
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Detection Confidence</span>
                 <span className="font-mono-data font-medium text-green-600">{piiItems.length > 0 ? `${Math.round(piiItems.reduce((sum, item) => sum + item.confidence, 0) / piiItems.length)}%` : "—"}</span>
+=======
+                <span className="font-medium text-foreground">Aadhaar Card</span>
+              </div>
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Detection Confidence</span>
+                <span className="font-mono-data font-medium text-green-600">99.2%</span>
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
               </div>
             </div>
           </div>
@@ -1810,8 +1891,13 @@ export default function App() {
             <h3 className="font-semibold text-foreground mb-5">Breakdown</h3>
             <div className="grid sm:grid-cols-5 gap-4">
               {[
+<<<<<<< HEAD
                 { label: 'PII Found', value: piiItems.length, color: 'text-foreground', bg: 'bg-secondary' },
                 { label: 'High Risk', value: piiItems.filter(p => p.risk === 'high').length, color: 'text-red-700', bg: 'bg-red-50' },
+=======
+                { label: 'PII Found', value: 7, color: 'text-foreground', bg: 'bg-secondary' },
+                { label: 'High Risk', value: 3, color: 'text-red-700', bg: 'bg-red-50' },
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
                 { label: 'Masked', value: piiItems.filter(p => p.action === 'mask').length, color: 'text-amber-700', bg: 'bg-amber-50' },
                 { label: 'Removed', value: piiItems.filter(p => p.action === 'remove').length, color: 'text-green-700', bg: 'bg-green-50' },
                 { label: 'Kept As-Is', value: piiItems.filter(p => p.action === 'keep').length, color: 'text-blue-700', bg: 'bg-blue-50' },
@@ -1877,9 +1963,15 @@ export default function App() {
             {/* Meta */}
             <div className="grid sm:grid-cols-2 gap-4">
               {[
+<<<<<<< HEAD
                 { label: 'Document Name', value: selectedFiles[0]?.name || 'Uploaded file' },
                 { label: 'Scan Date', value: new Date().toLocaleDateString('en-IN') },
                 { label: 'Document Type', value: 'Detected by backend scanner' },
+=======
+                { label: 'Document Name', value: 'Aadhaar_scan.pdf' },
+                { label: 'Scan Date', value: new Date().toLocaleDateString('en-IN') },
+                { label: 'Document Type', value: 'Aadhaar Card (99.2% confidence)' },
+>>>>>>> fec829914aeecffe34d8616ca6d0bcb4d0e4b3f0
                 { label: 'Total PII Found', value: `${piiItems.length} items` },
               ].map(r => (
                 <div key={r.label} className="flex justify-between py-3 border-b border-border">
